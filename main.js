@@ -89,7 +89,9 @@ function taskContextMenu(e) {
 }
 
 function addTodoContextMenu(t) {
-  
+  const a = document.createElement("p")
+  a.innerHTML = "hola"
+  append(a, t)
 }
 
 // Prevent rClick on webpage & hide menu when lClick

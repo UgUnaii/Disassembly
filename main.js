@@ -1,44 +1,40 @@
-const addButton = document.querySelector("#inputBar #addButton")
-const textField = document.querySelector("#inputBar #textField")
+// --- Document Objects
+const createTaskButton = document.querySelector('#inputBar #addButton')
+const createTaskInput = document.querySelector('#inputBar #textField')
+
+const charCounter = document.querySelector('#inputBar #charCount')
+const charCounterSpan = document.querySelector('#inputBar #charCount span')
 
 const contextMenu = document.querySelector('#contextMenu')
-const cmAddTodo = document.querySelector('#cmAddTodo')
+const cmAddTodo = document.querySelector('#contextMenu #cmAddTodo')
 
-// Declare the addMenu callers
+const taskWrapper = document.querySelector('#todoContainer')
 
-addButton.onclick = () => {   
-    if ((textField.value).trim().length == 0) {
-      textField.value = ""
-      textField.placeholder = "You cannot create a task whose title is blank!"
+
+
+// --- Main
+createTaskButton.onclick = () => {
+
+  // Check if the input is in blank, if so, do not create the task
+  if (checkInputNull(createTaskInput)) {
+    // Set the placeholder as an error mesage
+    createTaskInput.value = ""
+    createTaskInput.placeholder = "You cannot create a task whose title is blank!"
     
-      textField.classList.remove("placeholder-white-300")
-      textField.classList.add("placeholder-red-500")
+    createTaskInput.classList.replace("placeholder-white-300", "placeholder-red-500")
 
-      setTimeout(() => {
-        textField.placeholder = "Type here the title of your new task."
+    // Turn the placeholder to the normal state after 5s
+    setTimeout(() => {
+      createTaskInput.placeholder = "Type here the title of your new task."
 
-        textField.classList.remove("placeholder-red-500")
-        textField.classList.add("placeholder-white-300")
-      }, 5000)
-    } else {
+      createTaskInput.classList.replace("placeholder-red-500", "placeholder-white-300")
+    }, 5000)
 
-      if (textField.value.length > 45) {
-        textField.value = ""
-        textField.placeholder = "Max characters reached! Please input a title less long."
-    
-        textField.classList.remove("placeholder-white-300")
-        textField.classList.add("placeholder-red-500")
-
-        setTimeout(() => {
-          textField.placeholder = "Type here the title of your new task."
-
-          textField.classList.remove("placeholder-red-500")
-          textField.classList.add("placeholder-white-300")
-        }, 5000)
-
-    } else {
-      const todo = document.createElement("div")
-      todo.classList.add(
+  // If input is not in blank, then create the task
+  } else {
+    // Create the container
+    const task = document.createElement("div")
+    task.classList.add(
       "max-w-prose",
       "p-4",
       "border-transparent",
@@ -49,36 +45,68 @@ addButton.onclick = () => {
       "shadow-xl",
       "flex-col",
       "border-t-[#3a3c42]"
-      )
-      const title = document.createElement("h2")
-      title.classList.add("text-2xl")
-      title.innerHTML = textField.value
+    )
+    
+    // Create title
+    const title = document.createElement("h2")
+    title.classList.add("text-2xl")
+    title.innerText = textField.value.trim().substring(0, 40)
 
-      todo.appendChild(title)
-      document.querySelector("#todoContainer").appendChild(todo)
+    // Append elements
+    append(title, task)
+    append(task, taskWrapper)
 
-      textField.value = ""
+    // Earse the input value after creating a task
+    createTaskInput.value = ""
 
-      todo.addEventListener('contextmenu', (e) => {
-        e.preventDefault()
-        contextMenu.classList.remove("hidden")
-        contextMenu.classList.add("block")
-        contextMenu.classList.add(`left-[${e.pageX+10}px]`, `top-[${e.pageY+10}px]`)
-      })
-      cmAddTodo.addEventListener('click', () => {
-        const description = document.createElement("p")
-        description.innerHTML = "hola"
-        todo.appendChild(description)
-      }) 
-    }
+    // Add an event listener to the task, for the rClick menu
+    task.addEventListener('contextmenu', (e) => taskContextMenu(e, task))
+    cmAddTodo.addEventListener('click', (e) => addTodoContextMenu(e, task))
   }
 }
 
+// Count characters of input field and don't be higher than 40
+setInterval(() => {
+  charCounterSpan.innerHTML = createTaskInput.value.trim().length
+  
+  if (createTaskInput.value.trim().length >= 40) {
+    createTaskInput.value = createTaskInput.value.trim().substring(0, 40)
+    charCounter.classList.replace("text-white", "text-red-500")
+  } else {
+    charCounter.classList.replace("text-red-500", "text-white")
+  }
+}, 200)
+
+
+
+// --- Context Menu
+function taskContextMenu(e, t) {
+  e.preventDefault()
+  contextMenu.classList.replace("hidden", "block")
+  contextMenu.classList.add(`left-[${e.pageX+10}px]`, `top-[${e.pageY+10}px]`)
+}
+
+function addTodoContextMenu(e, t) {
+    const description = document.createElement("p")
+    description.innerHTML = "Hola"
+    append(description, t)
+}
+
+// Prevent rClick on webpage & hide menu when lClick
+document.addEventListener('contextmenu', (e) => e.preventDefault())
 document.addEventListener('click', () => {
-  contextMenu.classList.remove("block")
-  contextMenu.classList.add("hidden")
+  contextMenu.classList.replace("block", "hidden")
 })
 
-document.addEventListener('contextmenu', (e) => {
-  e.preventDefault()
-})
+
+
+// --- Auxiliar Functions
+function checkInputNull(i) {
+  if (i.value.trim().length == 0) {
+    return true;
+  }
+}
+
+function append(c, p) {
+  p.appendChild(c)
+}

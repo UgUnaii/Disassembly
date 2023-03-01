@@ -16,7 +16,7 @@
       <i class="fa-solid fa-plus text-white text-2xl ml-1"></i>
       <input type="text" name="title" placeholder="Type here the title of your new task." id="textField"
       class="text-white placeholder-white-300 font-mono outline-none bg-transparent w-full overflow-hidden resize-none -mt-1/2" rows="1"/>
-      <p id="charCount" class="text-white font-mono self-center pr-2"><span></span>/45</p>
+      <p id="charCount" class="text-white font-mono self-center pr-2"><span></span>/40</p>
     </div>
     <div class="p-4">
       <button id="addButton" class="bg-[#e44c4f] rounded-lg h-max w-max p-3 text-white font-mono w-full h-full">Create Task</button>
@@ -34,10 +34,5 @@
 
   <!-- Scripts -->
   <script src="main.js"></script>
-  <script> // Count characters in the input field
-    setInterval(() => {
-      document.querySelector("#inputBar #charCount span").innerHTML = document.querySelector("#inputBar #textField").value.trim().length 
-    }, 100)
-  </script>
 </body>
 </html>

@@ -44,7 +44,8 @@ createTaskButton.onclick = () => {
       "flex",
       "shadow-xl",
       "flex-col",
-      "border-t-[#3a3c42]"
+      "border-t-[#3a3c42]",
+      "h-min"
     )
     
     // Create title
@@ -60,8 +61,7 @@ createTaskButton.onclick = () => {
     createTaskInput.value = ""
 
     // Add an event listener to the task, for the rClick menu
-    task.addEventListener('contextmenu', (e) => taskContextMenu(e, task))
-    cmAddTodo.addEventListener('click', (e) => addTodoContextMenu(e, task))
+    task.addEventListener('contextmenu', (e) => taskContextMenu(e))
   }
 }
 
@@ -80,16 +80,16 @@ setInterval(() => {
 
 
 // --- Context Menu
-function taskContextMenu(e, t) {
+function taskContextMenu(e) {
   e.preventDefault()
   contextMenu.classList.replace("hidden", "block")
   contextMenu.classList.add(`left-[${e.pageX+10}px]`, `top-[${e.pageY+10}px]`)
+  
+  cmAddTodo.onclick = () => addTodoContextMenu(e.target)
 }
 
-function addTodoContextMenu(e, t) {
-    const description = document.createElement("p")
-    description.innerHTML = "Hola"
-    append(description, t)
+function addTodoContextMenu(t) {
+  
 }
 
 // Prevent rClick on webpage & hide menu when lClick

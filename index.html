@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+  <!-- Input bar field -->
+  <section class="flex justify-between" id="inputBar">
+    <div class="bg-[#3a3c42] p-2 rounded-lg m-4 flex flex-row gap-3 w-full">
+      <i class="fa-solid fa-plus text-white text-2xl ml-1"></i>
+      <input type="text" name="title" placeholder="Type here the title of your new task." id="textField"
+      class="text-white placeholder-white-300 font-mono outline-none bg-transparent w-full overflow-hidden resize-none -mt-1/2" rows="1"/>
+      <p id="charCount" class="text-white font-mono self-center pr-2"><span></span>/45</p>
+    </div>
+    <div class="p-4">
+      <button id="addButton" class="bg-[#e44c4f] rounded-lg h-max w-max p-3 text-white font-mono w-full h-full">Create Task</button>
+    </div>
+  </section>
+
+  <!-- Tasks container -->
+  <div id="todoContainer" class="m-4 flex flex-row gap-4 flex-wrap"></div>
+
+  <!-- Context Menu -->
+  <div id="contextMenu" class="bg-[#3a3c42] w-[270px] p-5 rounded-lg flex flex-col gap-3 text-white text-lg font-mono absolute hidden">
+    <p id="cmAddTodo" class="cursor-pointer"><i class="fa-solid fa-plus"></i> Add a todo</p>
+    <hr>
+  </div>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+  <script> // Count characters in the input field
+    setInterval(() => {
+      document.querySelector("#inputBar #charCount span").innerHTML = document.querySelector("#inputBar #textField").value.trim().length 
+    }, 100)
+  </script>
+</body>
+</html>

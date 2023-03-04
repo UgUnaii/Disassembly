@@ -10,8 +10,6 @@ const cmAddTodo = document.querySelector('#contextMenu #cmAddTodo')
 
 const taskWrapper = document.querySelector('#todoContainer')
 
-
-
 // --- Main
 createTaskButton.onclick = () => {
 
@@ -44,8 +42,7 @@ createTaskButton.onclick = () => {
       "flex",
       "shadow-xl",
       "flex-col",
-      "border-t-[#3a3c42]",
-      "h-min"
+      "border-t-[#3a3c42]"
     )
     
     // Create title
@@ -61,13 +58,13 @@ createTaskButton.onclick = () => {
     createTaskInput.value = ""
 
     // Add an event listener to the task, for the rClick menu
-    task.addEventListener('contextmenu', (e) => taskContextMenu(e))
+    task.addEventListener('contextmenu', (e) => taskContextMenu(e, task))
   }
 }
 
 // Count characters of input field and don't be higher than 40
 setInterval(() => {
-  charCounterSpan.innerHTML = createTaskInput.value.trim().length
+  charCounterSpan.innerText = createTaskInput.value.trim().length
   
   if (createTaskInput.value.trim().length >= 40) {
     createTaskInput.value = createTaskInput.value.trim().substring(0, 40)
@@ -80,18 +77,18 @@ setInterval(() => {
 
 
 // --- Context Menu
-function taskContextMenu(e) {
+function taskContextMenu(e, t) {
   e.preventDefault()
   contextMenu.classList.replace("hidden", "block")
   contextMenu.classList.add(`left-[${e.pageX+10}px]`, `top-[${e.pageY+10}px]`)
   
-  cmAddTodo.onclick = () => addTodoContextMenu(e.target)
+  cmAddTodo.onclick = () => addTodoContextMenu(t)
 }
 
 function addTodoContextMenu(t) {
-  const a = document.createElement("p")
-  a.innerHTML = "hola"
-  append(a, t)
+  const item = document.createElement("li")
+  item.innerHTML = prompt("Text").substring(0, 100)
+  append(item, t)
 }
 
 // Prevent rClick on webpage & hide menu when lClick
